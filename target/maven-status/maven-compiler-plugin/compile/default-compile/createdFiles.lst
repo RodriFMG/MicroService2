@@ -1,0 +1,9 @@
+com\example\ms22\application\ClienteController.class
+com\example\ms22\Ms22Application.class
+com\example\ms22\Service\CompraService.class
+com\example\ms22\Domain\Cliente.class
+com\example\ms22\application\CompraController.class
+com\example\ms22\Infrastracture\ClienteRepository.class
+com\example\ms22\Service\ClienteService.class
+com\example\ms22\Domain\Compra.class
+com\example\ms22\Infrastracture\CompraRepository.class
