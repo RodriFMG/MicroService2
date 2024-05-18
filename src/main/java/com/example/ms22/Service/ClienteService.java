@@ -4,6 +4,9 @@ import com.example.ms22.Domain.Cliente;
 import com.example.ms22.Domain.Compra;
 
 import com.example.ms22.Infrastracture.CompraRepository;
+
+import java.util.Collections;
+
 import com.example.ms22.Infrastracture.ClienteRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +16,31 @@ import java.util.NoSuchElementException;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
 
 @Service
-public class ClienteService{
+public class ClienteService implements UserDetailsService{
+    
+    private final ClienteRepository clienteRepository;
 
     @Autowired
-    private ClienteRepository clienteRepository;
+    public ClienteService(ClienteRepository clienteRepository){
+        this.clienteRepository = clienteRepository;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String userEmail) throws UsernameNotFoundException {
+        Cliente cliente = clienteRepository.findByEmail(userEmail).orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado con correo electrónico: " + userEmail));
+
+        return new org.springframework.security.core.userdetails.User(
+                cliente.getEmail(),
+                cliente.getContrasena(),
+                Collections.emptyList()
+        );
+    }
 
     @Autowired
     private CompraRepository compraRepository;
