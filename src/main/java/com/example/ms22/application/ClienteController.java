@@ -27,6 +27,17 @@ public class ClienteController {
         return new ResponseEntity<>(clientes,HttpStatus.OK);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Cliente> getClientById(@PathVariable Long id) {
+        Optional<Cliente> clienteOptional = clienteService.getClientById(id);
+        if (clienteOptional.isPresent()) {
+            return new ResponseEntity<>(clienteOptional.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+
     @PostMapping
     public ResponseEntity<String> PostCliente(@RequestBody Cliente cliente){
         clienteService.saveCliente(cliente);
